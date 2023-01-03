@@ -11,6 +11,13 @@ type Message struct {
 	Value   json.Number `json:"value"`
 }
 
+type EvokMessage struct {
+	Command string      `json:"cmd,omitempty"`
+	Circuit string      `json:"circuit"`
+	Dev     string   	  `json:"dev"`
+	Value   json.Number `json:"value"`
+}
+
 type mapping struct {
 	Device  string  `json:"device"`
 	Circuit string  `json:"circuit"`

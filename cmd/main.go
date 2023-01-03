@@ -50,27 +50,24 @@ func applyOffset(input float64, topic string) string {
 }
 
 func onEvokMessage(message string, socket gowebsocket.Socket) {
-	var msg types.Message
+	var msg []types.EvokMessage
 	if err := json.Unmarshal([]byte(message), &msg); err != nil {
 		log.Printf("Failed to unmarshal JSON data from EVOK message: %s\n", message)
 		return
 	}
 
-	// FIXME: Exclude input 4 as this is constantly floating
-	if msg.Device == "input" && msg.Circuit == "4" {
-		return
-	}
+	for _, sensor := range msg {
+		topic := topicMapper(sensor.Dev, sensor.Circuit)
+		v, _ := sensor.Value.Float64()
+		value := applyOffset(v, topic)
 
-	topic := topicMapper(msg.Device, msg.Circuit)
-	v, _ := msg.Value.Float64()
-	value := applyOffset(v, topic)
-
-	recv.Lock()
-	defer recv.Unlock()
-	token := MQTTClient.Publish(topic, 0, false, value)
-	token.Wait()
-	if token.Error() != nil {
-		log.Printf("Failed to publish packet: %s", token.Error())
+		recv.Lock()
+		token := MQTTClient.Publish(topic, 0, false, value)
+		token.Wait()
+		if token.Error() != nil {
+			log.Printf("Failed to publish packet: %s", token.Error())
+		}
+		recv.Unlock()
 	}
 }
 
