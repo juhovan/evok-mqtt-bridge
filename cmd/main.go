@@ -170,7 +170,7 @@ func main() {
 
 	EvokClient = gowebsocket.New("ws://" + *evok + "/ws")
 	EvokClient.OnConnectError = func(err error, socket gowebsocket.Socket) {
-		log.Println("Recieved connect error ", err)
+		log.Println("Received connect error ", err)
 	}
 
 	EvokClient.OnTextMessage = onEvokMessage

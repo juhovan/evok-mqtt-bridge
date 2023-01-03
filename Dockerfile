@@ -1,5 +1,5 @@
 FROM golang:1.18 as builder
- 
+
 WORKDIR /go/src/github.com/automatedhome/evok-mqtt-bridge
 COPY . .
 RUN CGO_ENABLED=0 go build -o evok-mqtt-bridge cmd/main.go
