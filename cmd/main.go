@@ -112,7 +112,7 @@ func synchronizer(evok string, interval int) {
 	log.Printf("Got data from evok: %v", data)
 
 	for _, sensor := range data.Data {
-		if sensor.Dev != "temp" && sensor.Dev != "relay" && sensor.Dev != "ai" && sensor.Dev != "input" {
+		if sensor.Dev != "temp" && sensor.Dev != "relay" && sensor.Dev != "ai" && sensor.Dev != "input" && sensor.Dev != "ao" {
 			log.Printf("Ignoring device %s", sensor.Dev)
 			continue
 		}
