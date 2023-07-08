@@ -62,7 +62,7 @@ func onEvokMessage(message string, socket gowebsocket.Socket) {
 		value := applyOffset(v, topic)
 
 		recv.Lock()
-		token := MQTTClient.Publish(topic, 0, false, value)
+		token := MQTTClient.Publish(topic, 0, true, value)
 		token.Wait()
 		if token.Error() != nil {
 			log.Printf("Failed to publish packet: %s", token.Error())
@@ -118,7 +118,7 @@ func synchronizer(evok string, interval int) {
 		}
 		topic := topicMapper(sensor.Dev, sensor.Circuit)
 		value := applyOffset(sensor.Value, topic)
-		token := MQTTClient.Publish(topic, 0, false, value)
+		token := MQTTClient.Publish(topic, 0, true, value)
 		token.Wait()
 		if token.Error() != nil {
 			log.Printf("Failed to publish packet: %s", token.Error())
