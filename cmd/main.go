@@ -103,7 +103,7 @@ func synchronizer(evok string, interval int) {
 		log.Fatalf("Couldn't read EVOK data: %v", err)
 	}
 
-	data := types.GPIOStates{}
+	data := []types.GPIOStates{}
 	err = json.Unmarshal([]byte(contents), &data)
 	if err != nil {
 		log.Printf("Failed to unmarshal JSON data from EVOK message: %v\n", err)
@@ -111,7 +111,7 @@ func synchronizer(evok string, interval int) {
 
 	log.Printf("Got data from evok: %v", data)
 
-	for _, sensor := range data.Data {
+	for _, sensor := range data {
 		if sensor.Dev != "temp" && sensor.Dev != "relay" && sensor.Dev != "ai" && sensor.Dev != "input" && sensor.Dev != "ao" {
 			log.Printf("Ignoring device %s", sensor.Dev)
 			continue
@@ -183,6 +183,6 @@ func main() {
 	log.Printf("Connected to EVOK on %s\n", *evok)
 
 	for {
-		synchronizer("http://"+*evok+"/json/all", config.Interval)
+		synchronizer("http://"+*evok+"/rest/all", config.Interval)
 	}
 }
