@@ -31,10 +31,7 @@ type Config struct {
 }
 
 type GPIOStates struct {
-	Status string `json:"status"`
-	Data   []struct {
-		Value   float64 `json:"value"`
-		Circuit string  `json:"circuit"`
-		Dev     string  `json:"dev"`
-	} `json:"data"`
+	Value   float64 `json:"value"`
+	Circuit string  `json:"circuit"`
+	Dev     string  `json:"dev"`
 }
